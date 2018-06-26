@@ -1,55 +1,66 @@
 
 //variables
 
-const player1 = "Shawn";
-const player2 = "Matt";
-
-let   player1Score = 0;
-let   player2Score = 0;
-
 const weapons = ["rock", "paper", "scissors"];
 const playerWeapon = "'s weapon of choice is "; 
-
-const player1Wins = player1 + " wins";
-const player2Wins = player2 + " wins";
 const tieGame = "It's a tie!";
+
+function getHand() {
+	return weapons[Math.floor(Math.random() * weapons.length)];
+}
+
+const player1 = {
+	name: "Shawn",
+	hand: getHand,
+	Score: 0
+}
+
+const player2 = {
+	name: "Matt",
+	hand: getHand,
+	Score: 0
+}
+
+const player1Wins = {
+	rock : "scissors",
+	paper : "rock",
+	scissors : "paper"
+}
 
 //===============================================================================
 
 //Loop until someone scores wins 3 times
-while (player1Score < 3 && player2Score < 3) {
 
-	let player1Choice = weapons[parseInt(Math.random() * weapons.length) % 3];
-	let player2Choice = weapons[parseInt(Math.random() * weapons.length) % 3];
+ function playRound(player1, player2){
 
-	let player1Winning = (player2Choice === "rock" && player1Choice === "paper") || (player2Choice === "paper" && player1Choice === "scissors") || (player2Choice === "scissors" && player1Choice === "rock");
-	let player2Winning = (player2Choice === "rock" && player1Choice === "scissors") || (player2Choice === "paper" && player1Choice === "rock") || (player2Choice === "scissors" && player1Choice === "paper");
+ 	const player1Choice = player1.hand();
+ 	const player2Choice = player2.hand();
+ 	let winner = null;
 
-	console.log(player1 + playerWeapon + player1Choice);
-	console.log(player2 + playerWeapon + player2Choice);
+ 	console.log(player1.name + playerWeapon + player1Choice);
+	console.log(player2.name + playerWeapon + player2Choice);
 
-	let x = true;
-	switch(x) {
+ 	if (player1Choice === player2Choice) {
+ 		console.log(tieGame);
+ 	}
+ 	else if (player1Wins.player1Choice === player2Choice) {
+ 		winner = player1.name;
+		player1.Score ++;
+ 	}
+ 	else {
+ 		winner = player2.name;
+ 		player2.Score ++;
+ 	}
+ 	console.log(winner + ' wins!');
+ 	return winner;
+ }
 
-		case player1Winning:
-			console.log(player1Wins);
-			player1Score ++;
-			break;
-		case player2Winning:
-			console.log(player2Wins);
-			player2Score ++;
-			break;
-		default:
-			console.log(tieGame);
-	}
+ function playGame (player1, player2, until){
 
-let currentScore = player1 + ": " + player1Score + " to " + player2 + ": " + player2Score + "\n";
-console.log("The current score is " + currentScore);	
+ 	while (player1.Score < until && player2.Score < until) {
 
-	if (player1Score === 3) {
-		console.log(player1Wins + " the match!");
-	}
-	else if (player2Score ===3){
-		console.log(player2Wins + " the match!");
-	}
-}
+ 		playRound(player1, player2);
+ 	}
+ }
+
+ playGame(player1, player2, 5);
